@@ -1,11 +1,13 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,11 +40,25 @@ public class PersonAdapter extends ArrayAdapter<Person> {
 
         Person currentPerson = personList.get(position);
 
-        TextView tvName = (TextView)listItem.findViewById(R.id.tv_name);
-        TextView tvAge = (TextView)listItem.findViewById(R.id.tv_age);
+//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View layout =inflater.inflate(R.layout.list_view, null);
 
+        LinearLayout linearLayout = (LinearLayout) listItem.findViewById(R.id.layout_list_view);
+
+        TextView tvName = new TextView(this.context);
         tvName.setText(currentPerson.getName());
+
+        TextView tvAge = new TextView(this.context);
         tvAge.setText("" + currentPerson.getAge());
+        linearLayout.addView(tvName);
+        linearLayout.addView(tvAge);
+
+
+//        TextView tvName = (TextView)listItem.findViewById(R.id.tv_name);
+//        TextView tvAge = (TextView)listItem.findViewById(R.id.tv_age);
+//
+//        tvName.setText(currentPerson.getName());
+//        tvAge.setText("" + currentPerson.getAge());
 
 
         return listItem;
