@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,9 +52,18 @@ public class PersonAdapter extends ArrayAdapter<Person> {
 
         TextView tvAge = new TextView(this.context);
         tvAge.setText("" + currentPerson.getAge());
+
+
+        RadioGroup radioGroup = new RadioGroup(this.context);
+        for (String s : currentPerson.getFoo()) {
+            RadioButton radioButton = new RadioButton(this.context);
+            radioButton.setText("" + s);
+            radioGroup.addView(radioButton);
+        }
+
         linearLayout.addView(tvName);
         linearLayout.addView(tvAge);
-
+        linearLayout.addView(radioGroup);
 
 //        TextView tvName = (TextView)listItem.findViewById(R.id.tv_name);
 //        TextView tvAge = (TextView)listItem.findViewById(R.id.tv_age);

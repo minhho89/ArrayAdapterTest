@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Person> addPersonInstance() {
-        Person p1 = new Person("Tam", 18);
-        Person p2 = new Person("An", 20);
-        Person p3 = new Person("Nam", 30);
-        Person p4 = new Person("Toan", 50);
+        Person p1 = new Person("Tam", 18, new String[] {"a", "b", "c"});
+        Person p2 = new Person("An", 20, new String[] {"f", "e", "g", "j"});
+        Person p3 = new Person("Nam", 30, new String[] {"K"});
+        Person p4 = new Person("Toan", 50, new String[] {"123", "sdasfd"});
 
         List<Person> personList = new ArrayList<>();
         personList.add(p1);
