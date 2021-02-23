@@ -7,7 +7,7 @@ public class QuizType0 extends Quiz {
     public QuizType0() {
     }
 
-    public QuizType0(String mQuiz, List<Object> mCorrectAnswer, List<String> optionsList) {
+    public QuizType0(String mQuiz, List<String> mCorrectAnswer, List<String> optionsList) {
         super(mQuiz, mCorrectAnswer);
         this.optionsList = optionsList;
     }
@@ -21,7 +21,7 @@ public class QuizType0 extends Quiz {
     }
 
     @Override
-    boolean checkResult(int userAnswer) {
+    boolean checkResult(List<String> userAnswer) {
         return super.checkResult(userAnswer);
     }
 }
