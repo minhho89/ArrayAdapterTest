@@ -20,7 +20,7 @@ import java.util.List;
 import minhfx03283.funix.arrayadaptertest.R;
 
 public class QuizAdapter2 extends RecyclerView.Adapter<QuizAdapter2.ViewHolder>{
-    public TextView tvQuiz;
+
     public Context context;
     public List<Quiz> quizzes;
 
@@ -29,28 +29,26 @@ public class QuizAdapter2 extends RecyclerView.Adapter<QuizAdapter2.ViewHolder>{
         this.quizzes = quizzes;
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvQuiz;
+
         LinearLayout linearLayout;
-        RadioGroup radioGroup;
-        RadioButton radioButton;
-        CheckBox checkbox;
-        EditText editText;
-        
+
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Context context = itemView.getContext();
+//            Context context = itemView.getContext();
 
-            tvQuiz = (TextView) itemView.findViewById(R.id.txtQuiz);
-            linearLayout = (LinearLayout) LayoutInflater.from(context).
-                    inflate(R.layout.quiz_recycler, null);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+//
+//            radioGroup = new RadioGroup(context);
+//            radioButton = new RadioButton(context);
+//
+//            checkbox = new CheckBox(context);
+//            editText = new EditText(linearLayout.getContext());
+//            editText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT));
 
-            radioGroup = new RadioGroup(context);
-            radioButton = new RadioButton(context);
-
-            checkbox = new CheckBox(context);
-            editText = new EditText(context);
         }
 
     }
@@ -60,10 +58,9 @@ public class QuizAdapter2 extends RecyclerView.Adapter<QuizAdapter2.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context  = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View quizView = inflater.inflate(R.layout.quiz_recycler, parent, false);
+        View quizView = LayoutInflater.from(context).inflate(R.layout.quiz_recycler, null);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(quizView);
@@ -74,16 +71,48 @@ public class QuizAdapter2 extends RecyclerView.Adapter<QuizAdapter2.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Quiz quiz = quizzes.get(position);
 
-        LinearLayout linearLayout = holder.linearLayout;
 
-        TextView textView = holder.tvQuiz;
+
+        LinearLayout linearLayout = holder.linearLayout;
+//        TextView extraTextView = new TextView(holder.linearLayout.getContext());
+
+        linearLayout.removeAllViews();
+        TextView textView = new TextView(linearLayout.getContext());
         textView.setText(quiz.getQuiz());
 
-        EditText editText = holder.editText;
-        linearLayout.addView(editText);
+//        linearLayout.setHasTransientState(true);
+        linearLayout.addView(textView);
+
+        if (quiz instanceof QuizType0) {
+
+            RadioGroup radioGroup = new RadioGroup(linearLayout.getContext());
+
+            for (String s : ((QuizType0) quiz).getOptionsList()) {
+                RadioButton radioButton = new RadioButton(linearLayout.getContext());
+                radioButton.setText(s);
 
 
+                radioGroup.addView(radioButton);
+            }
 
+            linearLayout.addView(radioGroup);
+        }
+
+        if (quiz instanceof QuizType1) {
+            for (String s : ((QuizType1) quiz).getOptionsList()) {
+                CheckBox checkBox = new CheckBox(linearLayout.getContext());
+                checkBox.setText(s);
+
+                linearLayout.addView(checkBox);
+            }
+        }
+
+        if (quiz instanceof QuizType2) {
+            EditText editText = new EditText(linearLayout.getContext());
+
+            linearLayout.addView(editText);
+        }
+//        linearLayout.setHasTransientState(false);
     }
 
     @Override
