@@ -1,6 +1,5 @@
-package minhfx03283.funix.arrayadaptertest;
+package minhfx03283.funix.arrayadaptertest.Quiz;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuizType2 extends Quiz {

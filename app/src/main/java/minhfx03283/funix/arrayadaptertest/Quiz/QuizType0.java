@@ -1,13 +1,13 @@
-package minhfx03283.funix.arrayadaptertest;
+package minhfx03283.funix.arrayadaptertest.Quiz;
 
 import java.util.List;
 
-public class QuizType1 extends Quiz {
+public class QuizType0 extends Quiz {
     private List<String> optionsList;
-    public QuizType1() {
+    public QuizType0() {
     }
 
-    public QuizType1(String mQuiz, List<String> mCorrectAnswer, List<String> optionsList) {
+    public QuizType0(String mQuiz, List<String> mCorrectAnswer, List<String> optionsList) {
         super(mQuiz, mCorrectAnswer);
         this.optionsList = optionsList;
     }

@@ -1,4 +1,4 @@
-package minhfx03283.funix.arrayadaptertest;
+package minhfx03283.funix.arrayadaptertest.Quiz;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,14 +1,12 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -17,10 +15,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
+import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
+import minhfx03283.funix.arrayadaptertest.Quiz.QuizType1;
+import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
 
 public class QuizAdapter extends ArrayAdapter<Quiz> {
 
