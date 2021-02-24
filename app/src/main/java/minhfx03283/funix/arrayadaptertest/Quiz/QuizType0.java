@@ -25,4 +25,14 @@ public class QuizType0 extends Quiz {
     public boolean checkResult(Set<String> userAnswer) {
         return super.checkResult(userAnswer);
     }
+
+    @Override
+    public Set<String> addUserAnswer(String answer) {
+        return super.addUserAnswer(answer);
+    }
+
+    @Override
+    public Set<String> removeUserAnswer(String answer) {
+        return super.removeUserAnswer(answer);
+    }
 }

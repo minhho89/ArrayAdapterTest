@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
@@ -67,6 +68,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         LinearLayout linearLayout = holder.linearLayout;
 
         linearLayout.removeAllViews();
+
         TextView textView = new TextView(linearLayout.getContext());
         textView.setText(quiz.getQuiz());
 
@@ -74,12 +76,25 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
         if (quiz instanceof QuizType0) {
             RadioGroup radioGroup = new RadioGroup(linearLayout.getContext());
-
             for (String s : ((QuizType0) quiz).getOptionsList()) {
                 RadioButton radioButton = new RadioButton(linearLayout.getContext());
                 radioButton.setText(s);
                 radioButton.setTag("rb" + s); // instead of setID which requires param as int
-//                radioButton.setOnClickListener(new RadioButtonListener());
+                radioButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean isChecked = ((RadioButton) v).isChecked();
+                        if (isChecked) {
+                            //TODO: implement checkCorrect method
+                            Toast.makeText(context, ((RadioButton) v).getText(), Toast.LENGTH_SHORT).show();
+//                            quiz.getUserAnswer().add(s);
+                        } else {
+//                            if (!quiz.getUserAnswer().isEmpty()) {
+//                                quiz.removeUserAnswer(((RadioButton) v).getText().toString());
+//                            }
+                        }
+                    }
+                });
 
                 radioGroup.addView(radioButton);
             }
@@ -149,7 +164,12 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 if (isChecked) {
                     //TODO: implement checkCorrect method
                     Toast.makeText(context, ((RadioButton) v).getText(), Toast.LENGTH_SHORT).show();
-
+                    quiz.addUserAnswer(((RadioButton) v).getText().toString());
+                } else {
+                    quiz.removeUserAnswer(((RadioButton) v).getText().toString());
+                }
+                for (String s : quiz.getUserAnswer()) {
+                    Toast.makeText(context, "userAnswer Set: " + s, Toast.LENGTH_SHORT).show();
                 }
             }
         }

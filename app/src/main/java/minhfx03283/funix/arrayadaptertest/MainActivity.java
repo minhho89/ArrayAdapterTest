@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         //RNA
         //CIA
         //DNA
-
         QuizType0 q1 = new QuizType0();
         q1.setQuiz("1. " + getResources().getString(R.string.q1));
         Set<String> q1Option = new HashSet<String>(
@@ -55,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
                         getResources().getString(R.string.q1_1),
                         getResources().getString(R.string.q1_2),
                         getResources().getString(R.string.q1_3)));
+        q1.setOptionsList(q1Option);
         Set<String> q1Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q1_3)));
+        q1.setCorrectAnswer(q1Answer);
 
         // 2. What process involves treating rubber with sulfur to harden it? (Correct Answer is "Vulcanizing")
         QuizType2 q2 = new QuizType2();
@@ -138,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
         //Stalagmites
         QuizType0 q9 = new QuizType0();
         q9.setQuiz("9. " + "Which grow upwards Stalactites or Stalagmites?");
-        q9.setOptionsList(new ArrayList<String>(Arrays.asList("Stalactites", "Stalagmites")));
-        q9.setCorrectAnswer(new ArrayList<String>(Arrays.asList("Stalagmites")));
+        q9.setOptionsList(new HashSet<String>(Arrays.asList("Stalactites", "Stalagmites")));
+        q9.setCorrectAnswer(new HashSet<String>(Arrays.asList("Stalagmites")));
 
         //10. What process involves heating an ore to obtain a metal? (Correct Answer is "Smelting")
         QuizType2 q10 = new QuizType2();
         q10.setQuiz("10. " + "What process involves heating an ore to obtain a metal?");
-        q10.setCorrectAnswer(new ArrayList<String>(Arrays.asList("Smelting")));
+        q10.setCorrectAnswer(new HashSet<String>(Arrays.asList("Smelting")));
 
         quizzes.add(q1);
         quizzes.add(q2);

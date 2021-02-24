@@ -8,6 +8,7 @@ import java.util.Set;
 public abstract class Quiz {
     private String mQuiz;
     private Set<String> mCorrectAnswer;
+    private Set<String> mUserAnswer;
 
     public Quiz() {
     }
@@ -33,6 +34,25 @@ public abstract class Quiz {
         this.mCorrectAnswer = mCorrectAnswer;
     }
 
+    public Set<String> getUserAnswer() {
+        return mUserAnswer;
+    }
+
+    public void setUserAnswer(Set<String> mUserAnswer) {
+        this.mUserAnswer = mUserAnswer;
+    }
+
+    public Set<String> addUserAnswer(String answer) {
+        this.mUserAnswer.add(answer);
+        return mUserAnswer;
+    }
+
+    public Set<String> removeUserAnswer(String answer) {
+        if(this.mUserAnswer.contains(answer)){
+            this.mUserAnswer.remove(answer);
+        }
+        return mUserAnswer;
+    }
 
     public boolean checkResult(Set<String> userAnswer) {
         Set<String> correctAnswerStr = new HashSet<>();
