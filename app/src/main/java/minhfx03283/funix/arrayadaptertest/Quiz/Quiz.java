@@ -6,16 +6,26 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class Quiz {
+    private static long count = 0;
+    private long id;
     private String mQuiz;
     private Set<String> mCorrectAnswer;
     private Set<String> mUserAnswer;
 
     public Quiz() {
+        this.id = ++count;
     }
+
 
     public Quiz(String mQuiz, Set<String> mCorrectAnswer) {
         this.mQuiz = mQuiz;
         this.mCorrectAnswer = mCorrectAnswer;
+        id = ++count;
+    }
+
+
+    public long getId() {
+        return id;
     }
 
     public String getQuiz() {

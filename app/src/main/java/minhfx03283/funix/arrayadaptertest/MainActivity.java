@@ -2,6 +2,8 @@ package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -160,5 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         return quizzes;
     }
+
+
 
 }

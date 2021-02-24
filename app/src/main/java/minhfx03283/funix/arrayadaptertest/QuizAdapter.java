@@ -1,6 +1,7 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
@@ -63,6 +68,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        HashMap<Long, Set<String>> answer = new HashMap<>();
+
         Quiz quiz = quizzes.get(position);
 
         LinearLayout linearLayout = holder.linearLayout;
@@ -83,15 +90,15 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 radioButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean isChecked = ((RadioButton) v).isChecked();
-                        if (isChecked) {
-                            //TODO: implement checkCorrect method
-                            Toast.makeText(context, ((RadioButton) v).getText(), Toast.LENGTH_SHORT).show();
-//                            quiz.getUserAnswer().add(s);
-                        } else {
-//                            if (!quiz.getUserAnswer().isEmpty()) {
-//                                quiz.removeUserAnswer(((RadioButton) v).getText().toString());
-//                            }
+                        final String TAG = "onClick RadioButton";
+                        if (v instanceof RadioButton) {
+                            boolean isChecked = ((RadioButton) v).isChecked();
+                            if (isChecked) {
+                                answer.put(quiz.getId(), new HashSet<String>(Arrays.asList(s)));
+                            }
+                            Log.d(TAG, "onClick: " + answer.size() + " " + answer.keySet().toString() + " " + answer.get(quiz.getId()).toString());
+                            Log.d(TAG, "onClick: " + quiz.checkResult(answer.get(quiz.getId())));
+
                         }
                     }
                 });
@@ -150,7 +157,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     }
 
     // Handle listeners
-    class RadioButtonListener implements View.OnClickListener {
+    public static class RadioButtonListener implements View.OnClickListener {
         Quiz quiz;
 
         public RadioButtonListener(Quiz quiz) {
@@ -163,13 +170,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 boolean isChecked = ((RadioButton) v).isChecked();
                 if (isChecked) {
                     //TODO: implement checkCorrect method
-                    Toast.makeText(context, ((RadioButton) v).getText(), Toast.LENGTH_SHORT).show();
                     quiz.addUserAnswer(((RadioButton) v).getText().toString());
                 } else {
                     quiz.removeUserAnswer(((RadioButton) v).getText().toString());
-                }
-                for (String s : quiz.getUserAnswer()) {
-                    Toast.makeText(context, "userAnswer Set: " + s, Toast.LENGTH_SHORT).show();
                 }
             }
         }
