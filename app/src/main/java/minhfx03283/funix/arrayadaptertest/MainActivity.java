@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
@@ -41,34 +43,42 @@ public class MainActivity extends AppCompatActivity {
     private List<Quiz> addQuizzesInstance() {
         List<Quiz> quizzes = new ArrayList<>();
 
+        // 1. What is Deoxyribonucleic acid commonly referred to as? (Correct Answer is #3 (DNA)
+        //RNA
+        //CIA
+        //DNA
+
         QuizType0 q1 = new QuizType0();
         q1.setQuiz("1. " + getResources().getString(R.string.q1));
-        ArrayList<String> q1Options = new ArrayList<>();
-        q1Options.add(getResources().getString(R.string.q1_1));
-        q1Options.add(getResources().getString(R.string.q1_2));
-        q1Options.add(getResources().getString(R.string.q1_3));
-        q1.setOptionsList(q1Options);
-        List<String> q1Answer = new ArrayList<>();
-        q1Answer.add(getResources().getString(R.string.q1_3));
-        q1.setCorrectAnswer(q1Answer);
+        Set<String> q1Option = new HashSet<String>(
+                Arrays.asList(
+                        getResources().getString(R.string.q1_1),
+                        getResources().getString(R.string.q1_2),
+                        getResources().getString(R.string.q1_3)));
+        Set<String> q1Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q1_3)));
 
+        // 2. What process involves treating rubber with sulfur to harden it? (Correct Answer is "Vulcanizing")
         QuizType2 q2 = new QuizType2();
         q2.setQuiz("2. " + getResources().getString(R.string.q2));
-        ArrayList<String> q2Answer = new ArrayList<>();
-        q2Answer.add(getResources().getString(R.string.q2_ans));
+        Set<String> q2Answer = new HashSet<String>(Arrays.asList(getResources().getString(R.string.q2_ans)));
         q2.setCorrectAnswer(q2Answer);
 
+        // 3. Name two different organelles of a eukaryotic cell. (Correct Answers are #1 (Ribosomes) and #3 (Golgi Apparatus))
+        //Ribosome
+        //Plasmids
+        //Golgi apparatus
+        //Diploid
         QuizType1 q3 = new QuizType1();
         q3.setQuiz("3. " + getResources().getString(R.string.q3));
-        ArrayList<String> q3Option = new ArrayList<>();
-        q3Option.add(getResources().getString(R.string.q3_1));
-        q3Option.add(getResources().getString(R.string.q3_2));
-        q3Option.add(getResources().getString(R.string.q3_3));
-        q3Option.add(getResources().getString(R.string.q3_4));
+        Set<String> q3Option = new HashSet<String>(Arrays.asList(
+                getResources().getString(R.string.q3_1),
+                getResources().getString(R.string.q3_2),
+                getResources().getString(R.string.q3_3),
+                getResources().getString(R.string.q3_4)));
         q3.setOptionsList(q3Option);
-        List<String> q3Answer = new ArrayList<>();
-        q3Answer.add(getResources().getString(R.string.q3_1));
-        q3Answer.add(getResources().getString(R.string.q3_3));
+        Set<String> q3Answer = new HashSet<>(Arrays.asList(
+                getResources().getString(R.string.q3_1),
+                getResources().getString(R.string.q3_3)));
         q3.setCorrectAnswer(q3Answer);
 
         //4. This word describes the force that pulls objects to the middle of the earth?

@@ -79,7 +79,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 RadioButton radioButton = new RadioButton(linearLayout.getContext());
                 radioButton.setText(s);
                 radioButton.setTag("rb" + s); // instead of setID which requires param as int
-                radioButton.setOnClickListener(new RadioButtonListener());
+//                radioButton.setOnClickListener(new RadioButtonListener());
 
                 radioGroup.addView(radioButton);
             }
@@ -115,6 +115,13 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "button clicked", Toast.LENGTH_SHORT).show();
+                    int countCorrect = 0;
+
+                    for (Quiz q: quizzes) {
+
+                    }
+
+
                 }
             });
         }
@@ -129,6 +136,12 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     // Handle listeners
     class RadioButtonListener implements View.OnClickListener {
+        Quiz quiz;
+
+        public RadioButtonListener(Quiz quiz) {
+            this.quiz = quiz;
+        }
+
         @Override
         public void onClick(View v) {
             if (v instanceof RadioButton) {
@@ -136,6 +149,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 if (isChecked) {
                     //TODO: implement checkCorrect method
                     Toast.makeText(context, ((RadioButton) v).getText(), Toast.LENGTH_SHORT).show();
+
                 }
             }
         }
