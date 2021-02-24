@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
         // (Correct Answer is "Gravity")
         Quiz q4 = new QuizType2();
         q4.setQuiz(getResources().getString(R.string.q4));
-        List<String> q4Answer = new ArrayList<>();
-        q4Answer.add(getResources().getString(R.string.q4_ans));
+        Set<String> q4Answer = new HashSet<>(Arrays.asList("Gravity"));
         q4.setCorrectAnswer(q4Answer);
 
 //        5 What type of trees yield the resin used to produce turpentine?
@@ -96,22 +95,22 @@ public class MainActivity extends AppCompatActivity {
 //        Oak trees
         QuizType0 q5 = new QuizType0();
         q5.setQuiz("5. " + getResources().getString(R.string.q5));
-        List<String> q5Option = new ArrayList<>();
-        q5Option.add(getResources().getString(R.string.q5_1));
-        q5Option.add(getResources().getString(R.string.q5_2));
-        q5Option.add(getResources().getString(R.string.q5_3));
+        Set<String> q5Option = new HashSet<>(Arrays.asList(
+                getResources().getString(R.string.q5_1),
+                getResources().getString(R.string.q5_2),
+                getResources().getString(R.string.q5_3)));
         q5.setOptionsList(q5Option);
-        List<String> q5Answer = new ArrayList<>();
-        q5Answer.add(getResources().getString(R.string.q5_2));
+        Set<String> q5Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q5_2)));
         q5.setCorrectAnswer(q5Answer);
 
 //        6. Cumulus and Cirrus are types of what? (Correct Answer is "Clouds" or "Cloud")
         QuizType2 q6 = new QuizType2();
         q6.setQuiz("6. " + getResources().getString(R.string.q6));
-        List<String> q6Answer = new ArrayList<>();
-        q6Answer.add(getResources().getString(R.string.q6_ans1));
-        q6Answer.add(getResources().getString(R.string.q6_ans2));
+        Set<String> q6Answer = new HashSet<>(Arrays.asList(
+                getResources().getString(R.string.q6_ans1),
+                getResources().getString(R.string.q6_ans2)));
         q6.setCorrectAnswer(q6Answer);
+
         // 7. Which two planets have one or more moons? (Correct Answers are #3 (Earth) and #4 (Pluto))
         //Ceres
         //Mercury
@@ -119,20 +118,20 @@ public class MainActivity extends AppCompatActivity {
         //Pluto
         QuizType1 q7 = new QuizType1();
         q7.setQuiz("7. " + getResources().getString(R.string.q7));
-        List<String> q7Option = new ArrayList<>();
-        q7Option.add(getResources().getString(R.string.q7_1));
-        q7Option.add(getResources().getString(R.string.q7_2));
-        q7Option.add(getResources().getString(R.string.q7_3));
-        q7Option.add(getResources().getString(R.string.q7_4));
+        Set<String> q7Option = new HashSet<>(Arrays.asList(
+                getResources().getString(R.string.q7_1),
+                getResources().getString(R.string.q7_2),
+                getResources().getString(R.string.q7_3),
+                getResources().getString(R.string.q7_4)));
         q7.setOptionsList(q7Option);
-        List<String> q7Answer = new ArrayList<>();
-        q7Answer.add(getResources().getString(R.string.q7_3));
-        q7Answer.add(getResources().getString(R.string.q7_4));
+        Set<String> q7Answer = new HashSet<>(Arrays.asList(
+                getResources().getString(R.string.q7_3),
+                getResources().getString(R.string.q7_4)));
 
         //8. Where in the human body would you find the scaphoid bone? (Correct Answer is "Wrist")
         QuizType2 q8 = new QuizType2();
         q8.setQuiz("8. " + "Where in the human body would you find the scaphoid bone?");
-        q8.setCorrectAnswer(new ArrayList<String>(Arrays.asList("Wrist")));
+        q8.setCorrectAnswer(new HashSet<String>(Arrays.asList("Wrist")));
 
         //9. Which grow upwards Stalactites or Stalagmites? (Correct Answers is #2 "Stalagmites")
         //Stalactites
