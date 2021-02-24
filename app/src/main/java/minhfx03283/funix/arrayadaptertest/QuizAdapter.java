@@ -4,16 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
@@ -25,10 +29,22 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     public Context context;
     public List<Quiz> quizzes;
+    // Define listener member variable
+    private OnItemClickListener listener;
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
+    // Constructor
     public QuizAdapter(Context context, List<Quiz> quizzes) {
         this.context = context;
         this.quizzes = quizzes;
+
     }
 
     @NonNull
@@ -62,6 +78,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             for (String s : ((QuizType0) quiz).getOptionsList()) {
                 RadioButton radioButton = new RadioButton(linearLayout.getContext());
                 radioButton.setText(s);
+                radioButton.setTag("rb" + s); // instead of setID which requires param as int
+                radioButton.setOnClickListener(new RadioButtonListener());
 
                 radioGroup.addView(radioButton);
             }
@@ -72,6 +90,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             for (String s : ((QuizType1) quiz).getOptionsList()) {
                 CheckBox checkBox = new CheckBox(linearLayout.getContext());
                 checkBox.setText(s);
+                checkBox.setTag("cb" + s);
+                checkBox.setOnCheckedChangeListener(new CheckBoxListener());
 
                 linearLayout.addView(checkBox);
             }
@@ -82,23 +102,64 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
             linearLayout.addView(editText);
         }
+
+        // Add a button at the end of the RecyclerView
+        if (position == quizzes.size() - 1) {
+            Button button = new Button(linearLayout.getContext());
+            button.setText("Submit");
+
+            linearLayout.addView(button);
+
+            button.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "button clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 //        linearLayout.setHasTransientState(false);
     }
+
 
     @Override
     public int getItemCount() {
         return quizzes.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    // Handle listeners
+    class RadioButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            if (v instanceof RadioButton) {
+                boolean isChecked = ((RadioButton) v).isChecked();
+                if (isChecked) {
+                    //TODO: implement checkCorrect method
+                    Toast.makeText(context, ((RadioButton) v).getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 
+    class CheckBoxListener implements CompoundButton.OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked) {
+                //TODO: implement checkCorrect method
+                Toast.makeText(context, buttonView.getText(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout linearLayout;
-
+        Button button;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
         }
     }
+
 }

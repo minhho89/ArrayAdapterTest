@@ -1,8 +1,10 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         rvQuiz.setAdapter(adapter);
         rvQuiz.setLayoutManager(new LinearLayoutManager(this));
 
+        // Add divider
+        rvQuiz.addItemDecoration(new DividerItemDecoration(rvQuiz.getContext(),
+                DividerItemDecoration.VERTICAL));
     }
 
     private List<Quiz> addQuizzesInstance() {
