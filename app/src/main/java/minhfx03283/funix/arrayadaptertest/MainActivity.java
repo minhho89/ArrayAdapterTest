@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rvQuiz = (RecyclerView) findViewById(R.id.recyclerView);
 
         addQuizzesInstance();
-        QuizAdapter2 adapter = new QuizAdapter2(quizzes);
+        QuizAdapter2 adapter = new QuizAdapter2(this, quizzes);
         rvQuiz.setAdapter(adapter);
         rvQuiz.setLayoutManager(new LinearLayoutManager(this));
 
