@@ -1,7 +1,6 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
-import minhfx03283.funix.arrayadaptertest.Quiz.QuizAdapter2;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType1;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
@@ -22,18 +20,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_2);
-//
-//        ListView listView = findViewById(R.id.layout_list_view);
-//
+        setContentView(R.layout.activity_main);
+
         List<Quiz> quizzes = addQuizzesInstance();
-//        QuizAdapter adapter = new QuizAdapter(this, quizzes);
-//        listView.setAdapter(adapter);
 
         RecyclerView rvQuiz = (RecyclerView) findViewById(R.id.recyclerView);
 
         addQuizzesInstance();
-        QuizAdapter2 adapter = new QuizAdapter2(this, quizzes);
+        QuizAdapter adapter = new QuizAdapter(this, quizzes);
         rvQuiz.setAdapter(adapter);
         rvQuiz.setLayoutManager(new LinearLayoutManager(this));
 

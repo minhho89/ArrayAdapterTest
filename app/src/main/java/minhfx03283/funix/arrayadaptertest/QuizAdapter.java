@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,9 +12,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
@@ -23,68 +21,84 @@ import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType1;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
 
-public class QuizAdapter extends ArrayAdapter<Quiz> {
+public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Quiz> quizzes = new ArrayList<>();
+    public Context context;
+    public List<Quiz> quizzes;
 
-    public QuizAdapter(@NonNull Context context, @NonNull List<Quiz> list) {
-        super(context, 0, list);
+    public QuizAdapter(Context context, List<Quiz> quizzes) {
         this.context = context;
-        this.quizzes = list;
+        this.quizzes = quizzes;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View listItem = convertView;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
 
-        if(listItem == null) {
-            listItem = LayoutInflater.from(context).inflate(R.layout.list_view, parent, false);
-        }
+        // Inflate the custom layout
+        View quizView = LayoutInflater.from(context).inflate(R.layout.quiz_recycler, null);
 
-        Quiz currentQuiz = quizzes.get(position);
+        // Return a new holder instance
+        ViewHolder viewHolder = new ViewHolder(quizView);
+        return viewHolder;
+    }
 
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View layout =inflater.inflate(R.layout.list_view, null);
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Quiz quiz = quizzes.get(position);
 
-        LinearLayout linearLayout = (LinearLayout) listItem.findViewById(R.id.layout_list_view);
+        LinearLayout linearLayout = holder.linearLayout;
 
-        TextView tvQuiz = new TextView(this.context);
-        tvQuiz.setText(currentQuiz.getQuiz());
-        linearLayout.addView(tvQuiz);
+        linearLayout.removeAllViews();
+        TextView textView = new TextView(linearLayout.getContext());
+        textView.setText(quiz.getQuiz());
 
-        RadioGroup radioGroup = new RadioGroup(this.context);
-        if(currentQuiz instanceof QuizType0) {
-            QuizType0 quizType0 = (QuizType0)currentQuiz;
-            for (String s: quizType0.getOptionsList()) {
-                RadioButton radioButton = new RadioButton(this.context);
-                radioButton.setText("" + s);
+        linearLayout.addView(textView);
+
+        if (quiz instanceof QuizType0) {
+            RadioGroup radioGroup = new RadioGroup(linearLayout.getContext());
+
+            for (String s : ((QuizType0) quiz).getOptionsList()) {
+                RadioButton radioButton = new RadioButton(linearLayout.getContext());
+                radioButton.setText(s);
+
                 radioGroup.addView(radioButton);
             }
+            linearLayout.addView(radioGroup);
         }
-        linearLayout.addView(radioGroup);
 
-        if (currentQuiz instanceof QuizType1) {
-            QuizType1 quizType1 = (QuizType1)currentQuiz;
-            for (String s: quizType1.getOptionsList()) {
-                CheckBox checkBox = new CheckBox(this.context);
-                checkBox.setText("" + s);
+        if (quiz instanceof QuizType1) {
+            for (String s : ((QuizType1) quiz).getOptionsList()) {
+                CheckBox checkBox = new CheckBox(linearLayout.getContext());
+                checkBox.setText(s);
+
                 linearLayout.addView(checkBox);
             }
         }
 
-        if (currentQuiz instanceof QuizType2) {
-            EditText editText = new EditText(this.context);
+        if (quiz instanceof QuizType2) {
+            EditText editText = new EditText(linearLayout.getContext());
+
             linearLayout.addView(editText);
         }
+//        linearLayout.setHasTransientState(false);
+    }
+
+    @Override
+    public int getItemCount() {
+        return quizzes.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        LinearLayout linearLayout;
 
 
+        public ViewHolder(View itemView) {
+            super(itemView);
 
-
-
-
-
-        return listItem;
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+        }
     }
 }
