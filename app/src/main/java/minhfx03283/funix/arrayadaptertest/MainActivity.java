@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
@@ -119,6 +120,24 @@ public class MainActivity extends AppCompatActivity {
         q7Answer.add(getResources().getString(R.string.q7_3));
         q7Answer.add(getResources().getString(R.string.q7_4));
 
+        //8. Where in the human body would you find the scaphoid bone? (Correct Answer is "Wrist")
+        QuizType2 q8 = new QuizType2();
+        q8.setQuiz("8. " + "Where in the human body would you find the scaphoid bone?");
+        q8.setCorrectAnswer(new ArrayList<String>(Arrays.asList("Wrist")));
+
+        //9. Which grow upwards Stalactites or Stalagmites? (Correct Answers is #2 "Stalagmites")
+        //Stalactites
+        //Stalagmites
+        QuizType0 q9 = new QuizType0();
+        q9.setQuiz("9. " + "Which grow upwards Stalactites or Stalagmites?");
+        q9.setOptionsList(new ArrayList<String>(Arrays.asList("Stalactites", "Stalagmites")));
+        q9.setCorrectAnswer(new ArrayList<String>(Arrays.asList("Stalagmites")));
+
+        //10. What process involves heating an ore to obtain a metal? (Correct Answer is "Smelting")
+        QuizType2 q10 = new QuizType2();
+        q10.setQuiz("10. " + "What process involves heating an ore to obtain a metal?");
+        q10.setCorrectAnswer(new ArrayList<String>(Arrays.asList("Smelting")));
+
         quizzes.add(q1);
         quizzes.add(q2);
         quizzes.add(q3);
@@ -126,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
         quizzes.add(q5);
         quizzes.add(q6);
         quizzes.add(q7);
+        quizzes.add(q8);
+        quizzes.add(q9);
+        quizzes.add(q10);
 
         return quizzes;
     }
