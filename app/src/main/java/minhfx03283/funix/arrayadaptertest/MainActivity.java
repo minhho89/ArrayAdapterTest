@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         Set<String> q7Answer = new HashSet<>(Arrays.asList(
                 getResources().getString(R.string.q7_3),
                 getResources().getString(R.string.q7_4)));
+        q7.setCorrectAnswer(q7Answer);
 
         //8. Where in the human body would you find the scaphoid bone? (Correct Answer is "Wrist")
         QuizType2 q8 = new QuizType2();

@@ -16,13 +16,20 @@ public abstract class Quiz {
         this.id = ++count;
     }
 
+    public Quiz(long id) {
+        this.id = id;
+    }
 
     public Quiz(String mQuiz, Set<String> mCorrectAnswer) {
         this.mQuiz = mQuiz;
         this.mCorrectAnswer = mCorrectAnswer;
-        id = ++count;
     }
 
+    public Quiz(long id, String mQuiz, Set<String> mCorrectAnswer) {
+        this.id = id;
+        this.mQuiz = mQuiz;
+        this.mCorrectAnswer = mCorrectAnswer;
+    }
 
     public long getId() {
         return id;
@@ -62,6 +69,23 @@ public abstract class Quiz {
             this.mUserAnswer.remove(answer);
         }
         return mUserAnswer;
+    }
+
+    public Quiz getQuizById(Quiz quiz, long id) {
+        if (quiz.getId() == id) {
+            quiz.setQuiz(this.getQuiz());
+            quiz.setCorrectAnswer(this.getCorrectAnswer());
+            return quiz;
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "id=" + id +
+                ", mQuiz='" + mQuiz + '\'' +
+                ", mCorrectAnswer=" + mCorrectAnswer;
     }
 
     public boolean checkResult(Set<String> userAnswer) {
