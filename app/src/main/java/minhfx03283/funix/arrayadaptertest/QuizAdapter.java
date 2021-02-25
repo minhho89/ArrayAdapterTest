@@ -193,6 +193,24 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     String message = "";
                     String compliment = "";
 
+                    // Handle last editView
+                    for(int i = 0; i < holder.linearLayout.getChildCount(); i++) {
+                        Object childView = holder.linearLayout.getChildAt(i);
+                        if (childView instanceof EditText) {
+                            Set<String> userAnswerSet = new HashSet<>();
+                            UserAnswer userAnswer = new UserAnswer();
+                            userAnswer.setQuiz(quiz);
+                            if (quiz instanceof QuizType2) {
+                                userAnswerSet.add(((EditText) childView).getText().toString());
+                                quiz.setUserAnswer(userAnswerSet);
+                            }
+
+                            userAnswer.setResult(quiz.checkResult(userAnswerSet));
+                            userAnswerHashMap.put(quiz.getId(), userAnswer);
+                        }
+                    }
+
+
                     for (Long key: userAnswerHashMap.keySet()) {
                         if(userAnswerHashMap.get(key).isResult() == true) countCorrect++;
                     }
