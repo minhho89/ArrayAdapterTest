@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +30,8 @@ import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType1;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
 import minhfx03283.funix.arrayadaptertest.Quiz.UserAnswer;
+
+import static android.content.ContentValues.TAG;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
@@ -47,6 +50,10 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     }
 
     HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
+
+    HashMap<Long, String> radioButtonSelectedHashMap = new HashMap<>();
+    HashMap<Long, Set<String>> checkBoxSelectedHashMap = new HashMap<>();
+    HashMap<Long, String> editTextHashMap = new HashMap<>();
 
 
     // Constructor
@@ -70,11 +77,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        HashSet<UserAnswerSet> userAnswerHashMap = new HashSet<>();
-
-
         Quiz quiz = quizzes.get(position);
-
         LinearLayout linearLayout = holder.linearLayout;
 
         linearLayout.removeAllViews();
@@ -82,7 +85,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         TextView textView = new TextView(linearLayout.getContext());
         textView.setText(quiz.getQuiz());
 
+        Log.d(TAG, "onBindViewHolder: " + "in" + radioButtonSelectedHashMap.toString());
         linearLayout.addView(textView);
+
 
         if (quiz instanceof QuizType0) {
             RadioGroup radioGroup = new RadioGroup(linearLayout.getContext());
@@ -90,11 +95,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 RadioButton radioButton = new RadioButton(linearLayout.getContext());
                 radioButton.setText(s);
                 radioButton.setTag(quiz.getId() + " " + s);
+
+                // Reset radioButton
+                if(radioButtonSelectedHashMap.get(quiz.getId()) == radioButton.getText().toString()) {
+                    // Check the proper button
+                    radioButton.setChecked(true);
+                }
+
                 radioButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final String TAG = "onClick RadioButton";
                         if (v instanceof RadioButton) {
+
                             boolean isChecked = ((RadioButton) v).isChecked();
                             Set<String> userAnswerSet = new HashSet<>();
                             UserAnswer userAnswer = new UserAnswer();
@@ -103,7 +116,26 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                                 userAnswer.setUserAnswer(new HashSet<>(Arrays.asList(s)));
                                 userAnswer.setResult(quiz.checkResult(new HashSet<>(Arrays.asList(s))));
                                 userAnswerHashMap.put(quiz.getId(),userAnswer);
+
+                                radioButtonSelectedHashMap.put(quiz.getId(), radioButton.getText().toString());
+                                Log.d(TAG, "onClick: RadioButton checked: " + radioButtonSelectedHashMap.toString());
+
+                                // Uncheck the other buttons
+                                int count = radioGroup.getChildCount();
+                                Log.d(TAG, "onBindViewHolder: Radio Button children: " + count);
+                                ArrayList<RadioButton> listOfButtons = new ArrayList<>();
+                                for (int i = 0; i < count; i++) {
+                                    View o = radioGroup.getChildAt(i);
+                                    if (o instanceof RadioButton &&
+                                            (((RadioButton) o).getText()!=radioButton.getText())
+                                           ) {
+
+                                        ((RadioButton) o).setChecked(false);
+                                        Log.d(TAG, "onClick: radiobutton iterator uncheck: " + ((RadioButton) o).getText());
+                                    }
+                                }
                             }
+                            radioButton.setChecked(true);
                             Log.d(TAG, "onClick: " + userAnswerHashMap.toString());
                         }
                     }
@@ -124,6 +156,15 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 checkBox.setText(s);
                 checkBox.setTag(quiz.getId() + "_" + s);
 
+                // Recheck Checkbox
+                if (checkBoxSelectedHashMap.get(quiz.getId())!= null){
+                    for (String o : checkBoxSelectedHashMap.get(quiz.getId())) {
+                        if (checkBox.getText().toString().equalsIgnoreCase(o)) {
+                            checkBox.setChecked(true);
+                        }
+                    }
+                }
+
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -131,6 +172,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
                         if (isChecked) {
                             userAnswerSet.add(s);
+                            checkBoxSelectedHashMap.put(quiz.getId(), userAnswerSet);
                         } else {
                             //!isChecked
                             String name = checkBox.getText().toString();
@@ -172,8 +214,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     userAnswerHashMap.put(quiz.getId(), userAnswer);
                 }
             });
-
-
         }
 
         // Add a button at the end of the RecyclerView
@@ -248,38 +288,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         return quizzes.size();
     }
 
-    // Handle listeners
-    public static class RadioButtonListener implements View.OnClickListener {
-        Quiz quiz;
-
-        public RadioButtonListener(Quiz quiz) {
-            this.quiz = quiz;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (v instanceof RadioButton) {
-                boolean isChecked = ((RadioButton) v).isChecked();
-                if (isChecked) {
-                    //TODO: implement checkCorrect method
-                    quiz.addUserAnswer(((RadioButton) v).getText().toString());
-                } else {
-                    quiz.removeUserAnswer(((RadioButton) v).getText().toString());
-                }
-            }
-        }
-    }
-
-    class CheckBoxListener implements CompoundButton.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(isChecked) {
-                //TODO: implement checkCorrect method
-                Toast.makeText(context, buttonView.getText(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout linearLayout;
