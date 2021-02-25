@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -35,22 +34,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     public Context context;
     public List<Quiz> quizzes;
-
+    HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
     // Define listener member variable
     private OnItemClickListener listener;
-    // Define the listener interface
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
-    }
-    // Define the method that allows the parent activity or fragment to define the listener
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
 
     // Constructor
     public QuizAdapter(Context context, List<Quiz> quizzes) {
         this.context = context;
         this.quizzes = quizzes;
+    }
+
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -69,9 +65,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 //        HashSet<UserAnswerSet> userAnswerHashMap = new HashSet<>();
-        HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
-        Set<String> userAnswerSet = new HashSet<>();
-        UserAnswer userAnswer = new UserAnswer();
+
 
         Quiz quiz = quizzes.get(position);
 
@@ -89,17 +83,20 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             for (String s : ((QuizType0) quiz).getOptionsList()) {
                 RadioButton radioButton = new RadioButton(linearLayout.getContext());
                 radioButton.setText(s);
+                radioButton.setTag(quiz.getId() + " " + s);
                 radioButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final String TAG = "onClick RadioButton";
                         if (v instanceof RadioButton) {
                             boolean isChecked = ((RadioButton) v).isChecked();
+                            Set<String> userAnswerSet = new HashSet<>();
+                            UserAnswer userAnswer = new UserAnswer();
                             if (isChecked) {
                                 userAnswer.setQuiz(quiz);
                                 userAnswer.setUserAnswer(new HashSet<>(Arrays.asList(s)));
                                 userAnswer.setResult(quiz.checkResult(new HashSet<>(Arrays.asList(s))));
-                                userAnswerHashMap.put(quiz.getId(),userAnswer);
+                                userAnswerHashMap.put(quiz.getId(), userAnswer);
                             }
                             Log.d(TAG, "onClick: " + userAnswerHashMap.toString());
                         }
@@ -115,24 +112,27 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             for (String s : ((QuizType1) quiz).getOptionsList()) {
                 CheckBox checkBox = new CheckBox(linearLayout.getContext());
                 checkBox.setText(s);
-
+                checkBox.setTag(quiz.getId() + "_" + s);
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         final String TAG = "onCheckedChange Chkbx";
-
+                        Set<String> userAnswerSet = new HashSet<>();
+                        UserAnswer userAnswer = new UserAnswer();
                         userAnswer.setQuiz(quiz);
 
-                        if(isChecked) {
+                        if (isChecked) {
                             userAnswerSet.add(s);
                         } else {
                             //!isChecked
-                            if(userAnswerSet.contains(s)) userAnswerSet.remove(s);
+                            userAnswerSet.remove(s);
                         }
                         userAnswer.setUserAnswer(userAnswerSet);
-                        userAnswer.setResult(quiz.checkResult(userAnswerSet));
-                        userAnswerHashMap.put(quiz.getId(), userAnswer);
-                        Log.d(TAG, "onCheckedChanged: " + userAnswerHashMap.toString());
+                        if (userAnswer != null) {
+                            userAnswer.setResult(quiz.checkResult(userAnswerSet));
+                            userAnswerHashMap.put(quiz.getId(), userAnswer);
+                            Log.d(TAG, "onCheckedChanged: " + userAnswerHashMap.toString());
+                        }
                     }
                 });
                 linearLayout.addView(checkBox);
@@ -140,10 +140,31 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         }
 
         if (quiz instanceof QuizType2) {
+
             EditText editText = new EditText(linearLayout.getContext());
             editText.setTag(quiz.getId());
 
             linearLayout.addView(editText);
+
+            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    Set<String> userAnswerSet = new HashSet<>();
+                    UserAnswer userAnswer = new UserAnswer();
+                    userAnswer.setQuiz(quiz);
+                    if (!hasFocus) {
+                        userAnswerSet.add(editText.getText().toString());
+                    } else {
+                        userAnswerSet.clear();
+                    }
+
+                    userAnswer.setUserAnswer(userAnswerSet);
+                    userAnswer.setResult(quiz.checkResult(userAnswerSet));
+                    userAnswerHashMap.put(quiz.getId(), userAnswer);
+                }
+            });
+
+
         }
 
         // Add a button at the end of the RecyclerView
@@ -158,48 +179,51 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     final String TAG = "Button onClick";
-                    int countCorrect = 0;
-                    // Get result from EditText
-//                    for (int i = 0; i < holder.linearLayout.getChildCount(); i++)
-//                    {
-//                        Object childView = holder.linearLayout.getChildAt(i);
-//                        if (childView instanceof EditText)
-//                        {
-//                            long quizId = (Long) ((EditText) childView).getTag();
-//
-//                            for(Quiz q : quizzes) {
-//
-//                                if (q instanceof QuizType2) {
-//                                    UserAnswer userAnswer = new UserAnswer();
-//                                    userAnswer.setQuiz(q);
-//                                    userAnswer.setUserAnswer(new HashSet<String>(Arrays.asList(
-//                                            ((EditText) childView).getText().toString())));
-//                                    userAnswer.setResult(q.checkResult(userAnswer.getUserAnswer()));
-//                                    userAnswerHashMap.put(quizId, userAnswer);
-//                                    Log.d(TAG, "onClick: " + userAnswerHashMap.toString());
-//                                }
-//                            }
-//                        }
-//                    }
+                    long countCorrect = 0;
+                    long totalPoint = 10;
+                    String message = "";
+                    String compliment = "";
 
-//                    Iterator it = userAnswerHashMap.entrySet().iterator()  ;
-//                    Log.d(TAG, "onClick: ****************************");
-//                    while(it.hasNext()) {
-//                        Log.d(TAG, "onClick: " + it.next().toString());
-//                    }
-//                    Log.d(TAG, "onClick: ****************************");
+                    for (Long key : userAnswerHashMap.keySet()) {
+                        if (userAnswerHashMap.get(key).isResult() == true) countCorrect++;
+                    }
 
+                    //[Perfect!]|[Try again!]+" "+[You scored] + " " + %d + " " + [out of] + " " + %d
+                    if (countCorrect == 10) {
+                        compliment = context.getResources().getString(R.string.perfect);
+                    } else {
+                        compliment = context.getResources().getString(R.string.try_again);
+                    }
+                    message = String.format("%s %s %s %s %s.",
+                            compliment,
+                            context.getResources().getString(R.string.scored_1),
+                            countCorrect,
+                            context.getResources().getString(R.string.scored_2),
+                            totalPoint);
+
+                    Log.d(TAG, "onClick: " + message);
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+                    Log.d(TAG, "onClick: ****************************");
                     Log.d(TAG, "onClick: " + userAnswerHashMap.toString());
+                    Log.d(TAG, "onClick: " + userAnswerHashMap.size());
+                    Log.d(TAG, "onClick: correct count: " + countCorrect);
+                    Log.d(TAG, "onClick: ****************************");
                 }
             });
         }
 //        linearLayout.setHasTransientState(false);
     }
 
-
     @Override
     public int getItemCount() {
         return quizzes.size();
+    }
+
+
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
     }
 
     // Handle listeners
@@ -228,19 +252,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(isChecked) {
+            if (isChecked) {
                 //TODO: implement checkCorrect method
                 Toast.makeText(context, buttonView.getText(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout linearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+            linearLayout = itemView.findViewById(R.id.linearLayout);
         }
     }
 

@@ -1,9 +1,6 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -86,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         //4. This word describes the force that pulls objects to the middle of the earth?
         // (Correct Answer is "Gravity")
-        Quiz q4 = new QuizType2();
+        QuizType2 q4 = new QuizType2();
         q4.setQuiz(getResources().getString(R.string.q4));
-        Set<String> q4Answer = new HashSet<>(Arrays.asList("Gravity"));
+        Set<String> q4Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q4_ans)));
         q4.setCorrectAnswer(q4Answer);
 
 //        5 What type of trees yield the resin used to produce turpentine?
@@ -134,21 +131,23 @@ public class MainActivity extends AppCompatActivity {
 
         //8. Where in the human body would you find the scaphoid bone? (Correct Answer is "Wrist")
         QuizType2 q8 = new QuizType2();
-        q8.setQuiz("8. " + "Where in the human body would you find the scaphoid bone?");
-        q8.setCorrectAnswer(new HashSet<String>(Arrays.asList("Wrist")));
+        q8.setQuiz("8. " + getResources().getString(R.string.q8));
+        q8.setCorrectAnswer(new HashSet<String>(
+                Arrays.asList(getResources().getString(R.string.q8_ans))));
 
         //9. Which grow upwards Stalactites or Stalagmites? (Correct Answers is #2 "Stalagmites")
         //Stalactites
         //Stalagmites
         QuizType0 q9 = new QuizType0();
-        q9.setQuiz("9. " + "Which grow upwards Stalactites or Stalagmites?");
-        q9.setOptionsList(new HashSet<String>(Arrays.asList("Stalactites", "Stalagmites")));
-        q9.setCorrectAnswer(new HashSet<String>(Arrays.asList("Stalagmites")));
+        q9.setQuiz("9. " + getResources().getString(R.string.q9));
+        q9.setOptionsList(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q9_1),
+                getResources().getString(R.string.q9_2))));
+        q9.setCorrectAnswer(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q9_2))));
 
         //10. What process involves heating an ore to obtain a metal? (Correct Answer is "Smelting")
         QuizType2 q10 = new QuizType2();
-        q10.setQuiz("10. " + "What process involves heating an ore to obtain a metal?");
-        q10.setCorrectAnswer(new HashSet<String>(Arrays.asList("Smelting")));
+        q10.setQuiz("10. " + getResources().getString(R.string.q10));
+        q10.setCorrectAnswer(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q10_ans))));
 
         quizzes.add(q1);
         quizzes.add(q2);
@@ -163,7 +162,5 @@ public class MainActivity extends AppCompatActivity {
 
         return quizzes;
     }
-
-
 
 }

@@ -8,6 +8,10 @@ public class QuizType0 extends Quiz {
     public QuizType0() {
     }
 
+    public QuizType0(long id) {
+        super(id);
+    }
+
     public QuizType0(String mQuiz, Set<String> mCorrectAnswer, Set<String> optionsList) {
         super(mQuiz, mCorrectAnswer);
         this.optionsList = optionsList;
