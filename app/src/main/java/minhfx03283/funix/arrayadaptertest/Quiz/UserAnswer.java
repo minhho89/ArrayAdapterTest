@@ -13,6 +13,10 @@ public class UserAnswer {
         correctAnswer = 0;
     }
 
+    public UserAnswer(Quiz quiz) {
+        this.quiz = quiz;
+    }
+
     public static long getCorrectAnswer() {
         return correctAnswer;
     }
@@ -50,7 +54,6 @@ public class UserAnswer {
         return "UserAnswer{" +
                 "quiz=" + quiz +
                 ", userAnswer=" + userAnswer +
-                ", result=" + result +
-                '}';
+                ", result=" + result + '}' + "\n\n";
     }
 }

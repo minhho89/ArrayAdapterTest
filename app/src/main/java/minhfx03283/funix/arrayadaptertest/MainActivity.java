@@ -1,9 +1,6 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -63,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         // 2. What process involves treating rubber with sulfur to harden it? (Correct Answer is "Vulcanizing")
         QuizType2 q2 = new QuizType2();
         q2.setQuiz("2. " + getResources().getString(R.string.q2));
-        Set<String> q2Answer = new HashSet<String>(Arrays.asList(getResources().getString(R.string.q2_ans)));
+        Set<String> q2Answer = new HashSet<String>(Arrays.asList(getResources().getString(R.string.q2_ans).toLowerCase()));
         q2.setCorrectAnswer(q2Answer);
 
         // 3. Name two different organelles of a eukaryotic cell. (Correct Answers are #1 (Ribosomes) and #3 (Golgi Apparatus))
@@ -86,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         //4. This word describes the force that pulls objects to the middle of the earth?
         // (Correct Answer is "Gravity")
-        Quiz q4 = new QuizType2();
+        QuizType2 q4 = new QuizType2();
         q4.setQuiz(getResources().getString(R.string.q4));
-        Set<String> q4Answer = new HashSet<>(Arrays.asList("Gravity"));
+        Set<String> q4Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q4_ans).toLowerCase()));
         q4.setCorrectAnswer(q4Answer);
 
 //        5 What type of trees yield the resin used to produce turpentine?
@@ -110,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
         QuizType2 q6 = new QuizType2();
         q6.setQuiz("6. " + getResources().getString(R.string.q6));
         Set<String> q6Answer = new HashSet<>(Arrays.asList(
-                getResources().getString(R.string.q6_ans1),
-                getResources().getString(R.string.q6_ans2)));
+                getResources().getString(R.string.q6_ans1).toLowerCase(),
+                getResources().getString(R.string.q6_ans2).toLowerCase()));
         q6.setCorrectAnswer(q6Answer);
 
         // 7. Which two planets have one or more moons? (Correct Answers are #3 (Earth) and #4 (Pluto))
@@ -134,21 +131,23 @@ public class MainActivity extends AppCompatActivity {
 
         //8. Where in the human body would you find the scaphoid bone? (Correct Answer is "Wrist")
         QuizType2 q8 = new QuizType2();
-        q8.setQuiz("8. " + "Where in the human body would you find the scaphoid bone?");
-        q8.setCorrectAnswer(new HashSet<String>(Arrays.asList("Wrist")));
+        q8.setQuiz("8. " + getResources().getString(R.string.q8).toLowerCase());
+        q8.setCorrectAnswer(new HashSet<String>(
+                Arrays.asList(getResources().getString(R.string.q8_ans).toLowerCase())));
 
         //9. Which grow upwards Stalactites or Stalagmites? (Correct Answers is #2 "Stalagmites")
         //Stalactites
         //Stalagmites
         QuizType0 q9 = new QuizType0();
-        q9.setQuiz("9. " + "Which grow upwards Stalactites or Stalagmites?");
-        q9.setOptionsList(new HashSet<String>(Arrays.asList("Stalactites", "Stalagmites")));
-        q9.setCorrectAnswer(new HashSet<String>(Arrays.asList("Stalagmites")));
+        q9.setQuiz("9. " + getResources().getString(R.string.q9));
+        q9.setOptionsList(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q9_1),
+                getResources().getString(R.string.q9_2))));
+        q9.setCorrectAnswer(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q9_2))));
 
         //10. What process involves heating an ore to obtain a metal? (Correct Answer is "Smelting")
         QuizType2 q10 = new QuizType2();
-        q10.setQuiz("10. " + "What process involves heating an ore to obtain a metal?");
-        q10.setCorrectAnswer(new HashSet<String>(Arrays.asList("Smelting")));
+        q10.setQuiz("10. " + getResources().getString(R.string.q10));
+        q10.setCorrectAnswer(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q10_ans).toLowerCase())));
 
         quizzes.add(q1);
         quizzes.add(q2);
@@ -163,7 +162,5 @@ public class MainActivity extends AppCompatActivity {
 
         return quizzes;
     }
-
-
 
 }

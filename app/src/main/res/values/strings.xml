@@ -33,8 +33,14 @@
     <string name="q7_3">Earth</string>
     <string name="q7_4">Pluto</string>
     <string name="q8">Where in the human body would you find the scaphoid bone?</string>
+    <string name="q8_ans">Wrist</string>
     <string name="q9">Which grow upwards Stalactites or Stalagmites?</string>
     <string name="q9_1">Stalactites</string>
     <string name="q9_2">Stalagmites</string>
     <string name="q10">What process involves heating an ore to obtain a metal?</string>
+    <string name="q10_ans">Smelting</string>
+    <string name="perfect">Perfect!</string>
+    <string name="try_again">Try again!</string>
+    <string name="scored_1">You score</string>
+    <string name="scored_2">out of</string>
 </resources>

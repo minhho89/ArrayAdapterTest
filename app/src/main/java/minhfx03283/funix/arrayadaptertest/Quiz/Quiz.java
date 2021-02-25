@@ -20,6 +20,10 @@ public abstract class Quiz {
         this.id = id;
     }
 
+    public Quiz(String mQuiz) {
+        this.mQuiz = mQuiz;
+    }
+
     public Quiz(String mQuiz, Set<String> mCorrectAnswer) {
         this.mQuiz = mQuiz;
         this.mCorrectAnswer = mCorrectAnswer;
