@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -35,25 +34,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     public Context context;
     public List<Quiz> quizzes;
-
+    HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
     // Define listener member variable
     private OnItemClickListener listener;
-    // Define the listener interface
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
-    }
-    // Define the method that allows the parent activity or fragment to define the listener
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
-
 
     // Constructor
     public QuizAdapter(Context context, List<Quiz> quizzes) {
         this.context = context;
         this.quizzes = quizzes;
+    }
+
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -103,7 +96,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                                 userAnswer.setQuiz(quiz);
                                 userAnswer.setUserAnswer(new HashSet<>(Arrays.asList(s)));
                                 userAnswer.setResult(quiz.checkResult(new HashSet<>(Arrays.asList(s))));
-                                userAnswerHashMap.put(quiz.getId(),userAnswer);
+                                userAnswerHashMap.put(quiz.getId(), userAnswer);
                             }
                             Log.d(TAG, "onClick: " + userAnswerHashMap.toString());
                         }
@@ -132,13 +125,13 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                             userAnswerSet.add(s);
                         } else {
                             //!isChecked
-                            if (userAnswerSet.contains(s)) userAnswerSet.remove(s);
+                            userAnswerSet.remove(s);
                         }
                         userAnswer.setUserAnswer(userAnswerSet);
-                        if (userAnswer!=null) {
-                        userAnswer.setResult(quiz.checkResult(userAnswerSet));
-                        userAnswerHashMap.put(quiz.getId(), userAnswer);
-                        Log.d(TAG, "onCheckedChanged: " + userAnswerHashMap.toString());
+                        if (userAnswer != null) {
+                            userAnswer.setResult(quiz.checkResult(userAnswerSet));
+                            userAnswerHashMap.put(quiz.getId(), userAnswer);
+                            Log.d(TAG, "onCheckedChanged: " + userAnswerHashMap.toString());
                         }
                     }
                 });
@@ -159,8 +152,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     Set<String> userAnswerSet = new HashSet<>();
                     UserAnswer userAnswer = new UserAnswer();
                     userAnswer.setQuiz(quiz);
-                    if(!hasFocus) {
-                        userAnswerSet.add(editText.getText().toString().toLowerCase());
+                    if (!hasFocus) {
+                        userAnswerSet.add(editText.getText().toString());
                     } else {
                         userAnswerSet.clear();
                     }
@@ -191,8 +184,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     String message = "";
                     String compliment = "";
 
-                    for (Long key: userAnswerHashMap.keySet()) {
-                        if(userAnswerHashMap.get(key).isResult() == true) countCorrect++;
+                    for (Long key : userAnswerHashMap.keySet()) {
+                        if (userAnswerHashMap.get(key).isResult() == true) countCorrect++;
                     }
 
                     //[Perfect!]|[Try again!]+" "+[You scored] + " " + %d + " " + [out of] + " " + %d
@@ -204,9 +197,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     message = String.format("%s %s %s %s %s.",
                             compliment,
                             context.getResources().getString(R.string.scored_1),
-                            String.valueOf(countCorrect),
+                            countCorrect,
                             context.getResources().getString(R.string.scored_2),
-                            String.valueOf(totalPoint));
+                            totalPoint);
 
                     Log.d(TAG, "onClick: " + message);
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -222,10 +215,15 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 //        linearLayout.setHasTransientState(false);
     }
 
-
     @Override
     public int getItemCount() {
         return quizzes.size();
+    }
+
+
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
     }
 
     // Handle listeners
@@ -254,19 +252,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(isChecked) {
+            if (isChecked) {
                 //TODO: implement checkCorrect method
                 Toast.makeText(context, buttonView.getText(), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout linearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+            linearLayout = itemView.findViewById(R.id.linearLayout);
         }
     }
 
