@@ -116,23 +116,26 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         }
 
         if (quiz instanceof QuizType1) {
+            UserAnswer userAnswer = new UserAnswer();
+            userAnswer.setQuiz(quiz);
+            Set<String> userAnswerSet = new HashSet<>();
+
             for (String s : ((QuizType1) quiz).getOptionsList()) {
                 CheckBox checkBox = new CheckBox(linearLayout.getContext());
                 checkBox.setText(s);
                 checkBox.setTag(quiz.getId() + "_" + s);
+
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         final String TAG = "onCheckedChange Chkbx";
-                        Set<String> userAnswerSet = new HashSet<>();
-                        UserAnswer userAnswer = new UserAnswer();
-                        userAnswer.setQuiz(quiz);
 
                         if (isChecked) {
                             userAnswerSet.add(s);
                         } else {
                             //!isChecked
-                            if (userAnswerSet.contains(s)) userAnswerSet.remove(s);
+                            String name = checkBox.getText().toString();
+                            if (userAnswerSet.contains(name)) userAnswerSet.remove(name);
                         }
                         userAnswer.setUserAnswer(userAnswerSet);
                         if (userAnswer!=null) {
