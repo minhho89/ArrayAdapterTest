@@ -41,6 +41,6 @@
     <string name="q10_ans">Smelting</string>
     <string name="perfect">Perfect!</string>
     <string name="try_again">Try again!</string>
-    <string name="scored_1">You score</string>
+    <string name="scored_1">You scored</string>
     <string name="scored_2">out of</string>
 </resources>
