@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         //10. What process involves heating an ore to obtain a metal? (Correct Answer is "Smelting")
         QuizType2 q10 = new QuizType2();
-        q10.setQuiz("10. " + getResources().getString(R.string.q10));
+        q10.setQuiz("10. " + "QUESTION 10");
         q10.setCorrectAnswer(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q10_ans))));
 
         // TODO: delete after test
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         //CIA
         //DNA
         QuizType0 q11 = new QuizType0();
-        q11.setQuiz("1. " + getResources().getString(R.string.q1));
+        q11.setQuiz("11. " + "QUESTION 11");
         Set<String> q11Option = new HashSet<String>(
                 Arrays.asList(
                         getResources().getString(R.string.q1_1),
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 2. What process involves treating rubber with sulfur to harden it? (Correct Answer is "Vulcanizing")
         QuizType2 q12 = new QuizType2();
-        q12.setQuiz("2. " + getResources().getString(R.string.q2));
+        q12.setQuiz("12. " + "QUESTION 12");
         Set<String> q12Answer = new HashSet<String>(Arrays.asList(getResources().getString(R.string.q2_ans)));
         q12.setCorrectAnswer(q2Answer);
 
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         //Golgi apparatus
         //Diploid
         QuizType1 q13 = new QuizType1();
-        q13.setQuiz("3. " + getResources().getString(R.string.q3));
+        q13.setQuiz("13. " + "QUESTION 13");
         Set<String> q13Option = new HashSet<String>(Arrays.asList(
                 getResources().getString(R.string.q3_1),
                 getResources().getString(R.string.q3_2),
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         //4. This word describes the force that pulls objects to the middle of the earth?
         // (Correct Answer is "Gravity")
         QuizType2 q14 = new QuizType2();
-        q14.setQuiz(getResources().getString(R.string.q4));
+        q14.setQuiz("14. QUESTION 14");
         Set<String> q14Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q4_ans)));
         q14.setCorrectAnswer(q4Answer);
 
