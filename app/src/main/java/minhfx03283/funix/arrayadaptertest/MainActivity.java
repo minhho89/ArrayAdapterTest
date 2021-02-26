@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void insertCountDownClock(TextView txtClock, QuizAdapter adapter) {
-        final CountDownTimer COUNTDOWN_TIMER = new CountDownTimer(10_000, 1_000) {
+        final CountDownTimer COUNTDOWN_TIMER = new CountDownTimer(60_000, 1_000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFinish() {
-                evaluateTest(adapter);
+                adapter.bringToast(adapter.getFinal_result());
             }
         };
         COUNTDOWN_TIMER.start();

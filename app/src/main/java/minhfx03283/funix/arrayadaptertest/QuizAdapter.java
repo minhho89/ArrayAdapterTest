@@ -267,8 +267,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     final String TAG = "Button onClick";
                     long countCorrect = 0;
                     long totalPoint = 10;
-                    String message = "";
-                    String compliment = "";
+
 
                     // Handle last editView
                     for (int i = 0; i < holder.linearLayout.getChildCount(); i++) {
@@ -292,21 +291,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                         if (userAnswerHashMap.get(key).isResult() == true) countCorrect++;
                     }
 
-                    //[Perfect!]|[Try again!]+" "+[You scored] + " " + %d + " " + [out of] + " " + %d
-                    if (countCorrect == quizzes.size()) {
-                        compliment = context.getResources().getString(R.string.perfect);
-                    } else {
-                        compliment = context.getResources().getString(R.string.try_again);
-                    }
-                    message = String.format("%s %s %s %s %s.",
-                            compliment,
-                            context.getResources().getString(R.string.scored_1),
-                            String.valueOf(countCorrect),
-                            context.getResources().getString(R.string.scored_2),
-                            String.valueOf(totalPoint));
+                    // Print Toast
+                    bringToast(countCorrect);
 
-                    Log.d(TAG, "onClick: " + message);
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
                     Log.d(TAG, "onClick: ****************************");
                     Log.d(TAG, "onClick: " + userAnswerHashMap.toString());
@@ -323,6 +310,27 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return quizzes.size();
+    }
+
+    public void bringToast(long countCorrect) {
+        String message = "";
+        String compliment = "";
+
+        //[Perfect!]|[Try again!]+" "+[You scored] + " " + %d + " " + [out of] + " " + %d
+        if (countCorrect == quizzes.size()) {
+            compliment = context.getResources().getString(R.string.perfect);
+        } else {
+            compliment = context.getResources().getString(R.string.try_again);
+        }
+        message = String.format("%s %s %s %s %s.",
+                compliment,
+                context.getResources().getString(R.string.scored_1),
+                String.valueOf(countCorrect),
+                context.getResources().getString(R.string.scored_2),
+                String.valueOf(quizzes.size()));
+
+        Log.d(TAG, "onClick: " + message);
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     public long getFinal_result() {
