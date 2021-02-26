@@ -332,7 +332,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             UserAnswer userAnswer = (UserAnswer) m.getValue();
             count += userAnswer.getCorrectAnswer();
         }
-        
         return count;
     }
 
