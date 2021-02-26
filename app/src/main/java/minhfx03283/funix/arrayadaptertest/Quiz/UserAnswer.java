@@ -51,9 +51,9 @@ public class UserAnswer {
 
     @Override
     public String toString() {
-        return "UserAnswer{" +
-                "quiz=" + quiz +
-                ", userAnswer=" + userAnswer +
-                ", result=" + result + '}' + "\n\n";
+        return "USER's ANSWER" + "\n" +
+//                "quiz :" + quiz +
+                "Answer: " + userAnswer + "\n" +
+                "Result: " + result + "\n";
     }
 }

@@ -86,10 +86,10 @@ public abstract class Quiz {
 
     @Override
     public String toString() {
-        return "Quiz{" +
-                "id=" + id +
-                ", mQuiz='" + mQuiz + '\'' +
-                ", mCorrectAnswer=" + mCorrectAnswer;
+        return "QUIZ" + "\n" +
+                "id: " + id + "\n" +
+                "mQuiz: " + mQuiz + '\n' +
+                "mCorrectAnswer= " + mCorrectAnswer + "\n";
     }
 
     public boolean checkResult(Set<String> userAnswer) {

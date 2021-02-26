@@ -51,9 +51,10 @@ public class QuizType2 extends Quiz {
 
     @Override
     public String toString() {
-        return "Quiz{" +
-                "id=" + super.getId() +
-                ", mQuiz='" + super.getQuiz() + '\'' +
-                ", mCorrectAnswer=" + mCorrectAnswer;
+
+        return "QUIZ" + "\n" +
+                "id: " + super.getId() + "\n" +
+                "mQuiz: " + super.getQuiz() + '\n' +
+                "mCorrectAnswer: " + mCorrectAnswer + "\n";
     }
 }
