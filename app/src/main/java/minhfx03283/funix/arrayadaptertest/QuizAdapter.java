@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -212,6 +213,14 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             editText.setTag(quiz.getId());
 
             linearLayout.addView(editText);
+
+            // Reset EditText
+            if(userAnswerHashMap.get(quiz.getId())!=null) {
+                if (!userAnswerHashMap.get(quiz.getId()).getUserAnswer().isEmpty()) {
+                    Iterator it = userAnswerHashMap.get(quiz.getId()).getUserAnswer().iterator();
+                    editText.setText(it.next().toString());
+                }
+            }
 
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override

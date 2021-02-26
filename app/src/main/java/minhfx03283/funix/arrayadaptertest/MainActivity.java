@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         //10. What process involves heating an ore to obtain a metal? (Correct Answer is "Smelting")
         QuizType2 q10 = new QuizType2();
-        q10.setQuiz("10. " + "QUESTION 10");
+        q10.setQuiz("10. " + getResources().getString(R.string.q10));
         q10.setCorrectAnswer(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q10_ans))));
 
         // TODO: delete after test
