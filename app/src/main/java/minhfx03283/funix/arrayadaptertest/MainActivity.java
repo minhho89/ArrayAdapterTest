@@ -149,53 +149,7 @@ public class MainActivity extends AppCompatActivity {
         q10.setQuiz("10. " + getResources().getString(R.string.q10));
         q10.setCorrectAnswer(new HashSet<String>(Arrays.asList(getResources().getString(R.string.q10_ans))));
 
-        // TODO: delete after test
-        // 1. What is Deoxyribonucleic acid commonly referred to as? (Correct Answer is #3 (DNA)
-        //RNA
-        //CIA
-        //DNA
-        QuizType0 q11 = new QuizType0();
-        q11.setQuiz("11. " + "QUESTION 11");
-        Set<String> q11Option = new HashSet<String>(
-                Arrays.asList(
-                        getResources().getString(R.string.q1_1),
-                        getResources().getString(R.string.q1_2),
-                        getResources().getString(R.string.q1_3)));
-        q11.setOptionsList(q1Option);
-        Set<String> q11Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q1_3)));
-        q11.setCorrectAnswer(q1Answer);
-
-        // 2. What process involves treating rubber with sulfur to harden it? (Correct Answer is "Vulcanizing")
-        QuizType2 q12 = new QuizType2();
-        q12.setQuiz("12. " + "QUESTION 12");
-        Set<String> q12Answer = new HashSet<String>(Arrays.asList(getResources().getString(R.string.q2_ans)));
-        q12.setCorrectAnswer(q2Answer);
-
-        // 3. Name two different organelles of a eukaryotic cell. (Correct Answers are #1 (Ribosomes) and #3 (Golgi Apparatus))
-        //Ribosome
-        //Plasmids
-        //Golgi apparatus
-        //Diploid
-        QuizType1 q13 = new QuizType1();
-        q13.setQuiz("13. " + "QUESTION 13");
-        Set<String> q13Option = new HashSet<String>(Arrays.asList(
-                getResources().getString(R.string.q3_1),
-                getResources().getString(R.string.q3_2),
-                getResources().getString(R.string.q3_3),
-                getResources().getString(R.string.q3_4)));
-        q13.setOptionsList(q3Option);
-        Set<String> q13Answer = new HashSet<>(Arrays.asList(
-                getResources().getString(R.string.q3_1),
-                getResources().getString(R.string.q3_3)));
-        q3.setCorrectAnswer(q3Answer);
-
-        //4. This word describes the force that pulls objects to the middle of the earth?
-        // (Correct Answer is "Gravity")
-        QuizType2 q14 = new QuizType2();
-        q14.setQuiz("14. QUESTION 14");
-        Set<String> q14Answer = new HashSet<>(Arrays.asList(getResources().getString(R.string.q4_ans)));
-        q14.setCorrectAnswer(q4Answer);
-
+        // Add quiz to Quiz list
         quizzes.add(q1);
         quizzes.add(q2);
         quizzes.add(q3);

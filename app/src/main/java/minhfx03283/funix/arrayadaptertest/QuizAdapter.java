@@ -40,19 +40,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     public List<Quiz> quizzes;
     HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
     HashMap<Long, String> radioButtonSelectedHashMap = new HashMap<>();
-    HashMap<Long, String> editTextHashMap = new HashMap<>();
-    // Define listener member variable
-    private OnItemClickListener listener;
 
     // Constructor
     public QuizAdapter(Context context, List<Quiz> quizzes) {
         this.context = context;
         this.quizzes = quizzes;
-    }
-
-    // Define the method that allows the parent activity or fragment to define the listener
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 
     @NonNull
@@ -273,7 +265,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                             userAnswer.setQuiz(quiz);
                             if (quiz instanceof QuizType2) {
                                 userAnswerSet.add(((EditText) childView).getText().toString());
-                                quiz.setUserAnswer(userAnswerSet);
+
                             }
 
                             userAnswer.setResult(quiz.checkResult(userAnswerSet));
@@ -317,12 +309,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return quizzes.size();
-    }
-
-
-    // Define the listener interface
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
