@@ -54,11 +54,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void insertCountDownClock(TextView txtClock, QuizAdapter adapter) {
-        final CountDownTimer COUNTDOWN_TIMER = new CountDownTimer(60_000, 1_000) {
+        final CountDownTimer COUNTDOWN_TIMER = new CountDownTimer(120_000, 1_000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                txtClock.setText("your remaining time: " + millisUntilFinished / 1000);
+                txtClock.setText("your remaining time in second: " + millisUntilFinished / 1000);
             }
 
             @Override
