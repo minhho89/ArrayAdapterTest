@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFinish() {
-//                evaluateTest(adapter);
                 adapter.bringToast(adapter.getFinal_result());
             }
         };
