@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
@@ -40,9 +41,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     public List<Quiz> quizzes;
     HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
     HashMap<Long, String> radioButtonSelectedHashMap = new HashMap<>();
-    HashMap<Long, String> editTextHashMap = new HashMap<>();
-    // Define listener member variable
-    private OnItemClickListener listener;
+
+    public long final_result;
+
 
     // Constructor
     public QuizAdapter(Context context, List<Quiz> quizzes) {
@@ -50,9 +51,12 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         this.quizzes = quizzes;
     }
 
-    // Define the method that allows the parent activity or fragment to define the listener
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
+    public HashMap<Long, UserAnswer> getUserAnswerHashMap() {
+        return userAnswerHashMap;
+    }
+
+    public void setUserAnswerHashMap(HashMap<Long, UserAnswer> userAnswerHashMap) {
+        this.userAnswerHashMap = userAnswerHashMap;
     }
 
     @NonNull
@@ -215,7 +219,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             linearLayout.addView(editText);
 
             // Reset EditText
-            if(userAnswerHashMap.get(quiz.getId())!=null) {
+//            if(userAnswerHashMap.get(quiz.getId())!=null)
+            if (userAnswerHashMap.get(quiz.getId())!=null
+            && (userAnswerHashMap.get(quiz.getId()).getUserAnswer()!=null)){
                 if (!userAnswerHashMap.get(quiz.getId()).getUserAnswer().isEmpty()) {
                     Iterator it = userAnswerHashMap.get(quiz.getId()).getUserAnswer().iterator();
                     editText.setText(it.next().toString());
@@ -287,7 +293,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     }
 
                     //[Perfect!]|[Try again!]+" "+[You scored] + " " + %d + " " + [out of] + " " + %d
-                    if (countCorrect == 10) {
+                    if (countCorrect == quizzes.size()) {
                         compliment = context.getResources().getString(R.string.perfect);
                     } else {
                         compliment = context.getResources().getString(R.string.try_again);
@@ -319,10 +325,15 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         return quizzes.size();
     }
 
+    public long getFinal_result() {
+        long count = 0;
 
-    // Define the listener interface
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
+        for (Map.Entry m: this.userAnswerHashMap.entrySet()) {
+            UserAnswer userAnswer = (UserAnswer) m.getValue();
+            count += userAnswer.getCorrectAnswer();
+        }
+        
+        return count;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

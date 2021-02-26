@@ -1,7 +1,9 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -44,11 +47,25 @@ public class MainActivity extends AppCompatActivity
         // Prompt the name input dialog
         InputNameFragment inputNameFragment = new InputNameFragment();
         inputNameFragment.show(getSupportFragmentManager(), "inputName");
+        
+        TextView txtClock = (TextView)findViewById(R.id.txt_clock);
+        insertCountDownClock(txtClock, adapter);
+    }
 
+    private void insertCountDownClock(TextView txtClock, QuizAdapter adapter) {
+        final CountDownTimer COUNTDOWN_TIMER = new CountDownTimer(10_000, 1_000) {
 
+            @Override
+            public void onTick(long millisUntilFinished) {
+                txtClock.setText("your remaining time: " + millisUntilFinished / 1000);
+            }
 
-
-
+            @Override
+            public void onFinish() {
+                evaluateTest(adapter);
+            }
+        };
+        COUNTDOWN_TIMER.start();
     }
 
     private List<Quiz> addQuizzesInstance() {
@@ -234,5 +251,9 @@ public class MainActivity extends AppCompatActivity
         TextView txtName = (TextView)findViewById(R.id.txt_name);
         txtName.setText(dialog.getUserName());
 
+    }
+
+    public void evaluateTest(QuizAdapter quizAdapter) {
+        Toast.makeText(this.getBaseContext(), "" + quizAdapter.getFinal_result(), Toast.LENGTH_SHORT).show();
     }
 }

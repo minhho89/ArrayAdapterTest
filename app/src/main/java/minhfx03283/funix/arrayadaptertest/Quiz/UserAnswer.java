@@ -7,17 +7,18 @@ public class UserAnswer {
     private Quiz quiz;
     private Set<String> userAnswer;
     private boolean result;
-    private static long correctAnswer = 0;
+    private long correctAnswer = 0;
+
 
     public UserAnswer() {
-        correctAnswer = 0;
+
     }
 
     public UserAnswer(Quiz quiz) {
         this.quiz = quiz;
     }
 
-    public static long getCorrectAnswer() {
+    public long getCorrectAnswer() {
         return correctAnswer;
     }
 
@@ -31,6 +32,7 @@ public class UserAnswer {
 
     public void setResult(boolean result) {
         this.result = result;
+        if (result == true) correctAnswer++;
     }
 
     public Quiz getQuiz() {
