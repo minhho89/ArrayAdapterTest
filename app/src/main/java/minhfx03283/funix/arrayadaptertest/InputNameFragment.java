@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,8 +64,9 @@ public class InputNameFragment extends DialogFragment {
                     }
                 });
 
-
-        return builder.create();
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
@@ -91,5 +91,7 @@ public class InputNameFragment extends DialogFragment {
         void onDialogPositiveClick(InputNameFragment dialog);
 
         void onDialogNegativeClick(InputNameFragment dialog);
+
+
     }
 }

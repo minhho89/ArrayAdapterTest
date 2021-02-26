@@ -51,6 +51,18 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         this.quizzes = quizzes;
     }
 
+    public QuizAdapter(Context context) {
+        this.context = context;
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
+
     public HashMap<Long, UserAnswer> getUserAnswerHashMap() {
         return userAnswerHashMap;
     }

@@ -26,6 +26,7 @@ import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
 public class MainActivity extends AppCompatActivity
         implements InputNameFragment.NoticeDialogListener {
 
+    QuizAdapter adapter = new QuizAdapter(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         rvQuiz.setAdapter(adapter);
         rvQuiz.setLayoutManager(new LinearLayoutManager(this));
 
+        adapter.setQuizzes(quizzes);
         // Add divider
         rvQuiz.addItemDecoration(new DividerItemDecoration(rvQuiz.getContext(),
                 DividerItemDecoration.VERTICAL));
@@ -48,8 +50,7 @@ public class MainActivity extends AppCompatActivity
         InputNameFragment inputNameFragment = new InputNameFragment();
         inputNameFragment.show(getSupportFragmentManager(), "inputName");
         
-        TextView txtClock = (TextView)findViewById(R.id.txt_clock);
-        insertCountDownClock(txtClock, adapter);
+
     }
 
     private void insertCountDownClock(TextView txtClock, QuizAdapter adapter) {
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFinish() {
+                // Display the toast
                 adapter.bringToast(adapter.getFinal_result());
             }
         };
@@ -244,16 +246,15 @@ public class MainActivity extends AppCompatActivity
     public void onDialogPositiveClick(InputNameFragment dialog) {
         TextView txtName = (TextView)findViewById(R.id.txt_name);
         txtName.setText(dialog.getUserName());
+        TextView txtClock = (TextView)findViewById(R.id.txt_clock);
+        insertCountDownClock(txtClock, adapter);
     }
 
     @Override
     public void onDialogNegativeClick(InputNameFragment dialog) {
         TextView txtName = (TextView)findViewById(R.id.txt_name);
         txtName.setText(dialog.getUserName());
-
-    }
-
-    public void evaluateTest(QuizAdapter quizAdapter) {
-        Toast.makeText(this.getBaseContext(), "" + quizAdapter.getFinal_result(), Toast.LENGTH_SHORT).show();
+        TextView txtClock = (TextView)findViewById(R.id.txt_clock);
+        insertCountDownClock(txtClock, adapter);
     }
 }
