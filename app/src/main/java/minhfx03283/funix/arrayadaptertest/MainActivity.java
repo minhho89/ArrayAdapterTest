@@ -207,11 +207,6 @@ public class MainActivity extends AppCompatActivity {
         quizzes.add(q9);
         quizzes.add(q10);
 
-        // TODO: delete after test
-        quizzes.add(q11);
-        quizzes.add(q12);
-        quizzes.add(q13);
-        quizzes.add(q14);
 
         return quizzes;
     }
