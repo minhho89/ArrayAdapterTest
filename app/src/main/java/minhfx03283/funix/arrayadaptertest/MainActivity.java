@@ -1,8 +1,10 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +20,8 @@ import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType1;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements InputNameFragment.NoticeDialogListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
         // Add divider
         rvQuiz.addItemDecoration(new DividerItemDecoration(rvQuiz.getContext(),
                 DividerItemDecoration.VERTICAL));
+
+        // Prompt the name input dialog
+        InputNameFragment inputNameFragment = new InputNameFragment();
+        inputNameFragment.show(getSupportFragmentManager(), "inputName");
+
+
+
+
+
     }
 
     private List<Quiz> addQuizzesInstance() {
@@ -165,4 +177,16 @@ public class MainActivity extends AppCompatActivity {
         return quizzes;
     }
 
+    @Override
+    public void onDialogPositiveClick(InputNameFragment dialog) {
+        TextView txtName = (TextView)findViewById(R.id.txt_name);
+        txtName.setText(dialog.getUserName());
+    }
+
+    @Override
+    public void onDialogNegativeClick(InputNameFragment dialog) {
+        TextView txtName = (TextView)findViewById(R.id.txt_name);
+        txtName.setText(dialog.getUserName());
+
+    }
 }

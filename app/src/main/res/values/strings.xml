@@ -39,8 +39,14 @@
     <string name="q9_2">Stalagmites</string>
     <string name="q10">What process involves heating an ore to obtain a metal?</string>
     <string name="q10_ans">Smelting</string>
+
+    <!--    For Toast-->
     <string name="perfect">Perfect!</string>
     <string name="try_again">Try again!</string>
     <string name="scored_1">You scored</string>
     <string name="scored_2">out of</string>
+
+    <!--For Input Dialog-->
+    <string name="button_cancel">Cancel</string>
+    <string name="button_ok">OK</string>
 </resources>
