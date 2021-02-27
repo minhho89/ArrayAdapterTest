@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
@@ -41,11 +42,39 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
     HashMap<Long, String> radioButtonSelectedHashMap = new HashMap<>();
 
+
+    public long final_result;
+
+
+
+
     // Constructor
     public QuizAdapter(Context context, List<Quiz> quizzes) {
         this.context = context;
         this.quizzes = quizzes;
     }
+
+
+    public QuizAdapter(Context context) {
+        this.context = context;
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
+
+    public HashMap<Long, UserAnswer> getUserAnswerHashMap() {
+        return userAnswerHashMap;
+    }
+
+    public void setUserAnswerHashMap(HashMap<Long, UserAnswer> userAnswerHashMap) {
+        this.userAnswerHashMap = userAnswerHashMap;
+    }
+
 
     @NonNull
     @Override
@@ -207,7 +236,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             linearLayout.addView(editText);
 
             // Reset EditText
-            if(userAnswerHashMap.get(quiz.getId())!=null) {
+//            if(userAnswerHashMap.get(quiz.getId())!=null)
+            if (userAnswerHashMap.get(quiz.getId())!=null
+            && (userAnswerHashMap.get(quiz.getId()).getUserAnswer()!=null)){
                 if (!userAnswerHashMap.get(quiz.getId()).getUserAnswer().isEmpty()) {
                     Iterator it = userAnswerHashMap.get(quiz.getId()).getUserAnswer().iterator();
                     editText.setText(it.next().toString());
@@ -253,8 +284,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                     final String TAG = "Button onClick";
                     long countCorrect = 0;
                     long totalPoint = 10;
-                    String message = "";
-                    String compliment = "";
+
 
                     // Handle last editView
                     for (int i = 0; i < holder.linearLayout.getChildCount(); i++) {
@@ -278,21 +308,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                         if (userAnswerHashMap.get(key).isResult() == true) countCorrect++;
                     }
 
-                    //[Perfect!]|[Try again!]+" "+[You scored] + " " + %d + " " + [out of] + " " + %d
-                    if (countCorrect == 10) {
-                        compliment = context.getResources().getString(R.string.perfect);
-                    } else {
-                        compliment = context.getResources().getString(R.string.try_again);
-                    }
-                    message = String.format("%s %s %s %s %s.",
-                            compliment,
-                            context.getResources().getString(R.string.scored_1),
-                            String.valueOf(countCorrect),
-                            context.getResources().getString(R.string.scored_2),
-                            String.valueOf(totalPoint));
+                    // Print Toast
+                    bringToast(countCorrect);
 
-                    Log.d(TAG, "onClick: " + message);
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
                     Log.d(TAG, "onClick: ****************************");
                     Log.d(TAG, "onClick: " + userAnswerHashMap.toString());
@@ -310,6 +328,40 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     public int getItemCount() {
         return quizzes.size();
     }
+
+
+    public void bringToast(long countCorrect) {
+        String message = "";
+        String compliment = "";
+
+        //[Perfect!]|[Try again!]+" "+[You scored] + " " + %d + " " + [out of] + " " + %d
+        if (countCorrect == quizzes.size()) {
+            compliment = context.getResources().getString(R.string.perfect);
+        } else {
+            compliment = context.getResources().getString(R.string.try_again);
+        }
+        message = String.format("%s %s %s %s %s.",
+                compliment,
+                context.getResources().getString(R.string.scored_1),
+                String.valueOf(countCorrect),
+                context.getResources().getString(R.string.scored_2),
+                String.valueOf(quizzes.size()));
+
+        Log.d(TAG, "onClick: " + message);
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public long getFinal_result() {
+        long count = 0;
+
+        for (Map.Entry m: this.userAnswerHashMap.entrySet()) {
+            UserAnswer userAnswer = (UserAnswer) m.getValue();
+            count += userAnswer.getCorrectAnswer();
+        }
+        return count;
+    }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout linearLayout;

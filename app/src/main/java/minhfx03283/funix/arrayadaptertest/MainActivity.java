@@ -1,7 +1,9 @@
 package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +26,7 @@ import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
 public class MainActivity extends AppCompatActivity
         implements InputNameFragment.NoticeDialogListener {
 
+    QuizAdapter adapter = new QuizAdapter(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         rvQuiz.setAdapter(adapter);
         rvQuiz.setLayoutManager(new LinearLayoutManager(this));
 
+        adapter.setQuizzes(quizzes);
         // Add divider
         rvQuiz.addItemDecoration(new DividerItemDecoration(rvQuiz.getContext(),
                 DividerItemDecoration.VERTICAL));
@@ -44,11 +49,25 @@ public class MainActivity extends AppCompatActivity
         // Prompt the name input dialog
         InputNameFragment inputNameFragment = new InputNameFragment();
         inputNameFragment.show(getSupportFragmentManager(), "inputName");
+        
 
+    }
 
+    private void insertCountDownClock(TextView txtClock, QuizAdapter adapter) {
+        final CountDownTimer COUNTDOWN_TIMER = new CountDownTimer(120_000, 1_000) {
 
+            @Override
+            public void onTick(long millisUntilFinished) {
+                txtClock.setText("your remaining time in second: " + millisUntilFinished / 1000);
+            }
 
-
+            @Override
+            public void onFinish() {
+                // Display the toast
+                adapter.bringToast(adapter.getFinal_result());
+            }
+        };
+        COUNTDOWN_TIMER.start();
     }
 
     private List<Quiz> addQuizzesInstance() {
@@ -181,12 +200,15 @@ public class MainActivity extends AppCompatActivity
     public void onDialogPositiveClick(InputNameFragment dialog) {
         TextView txtName = (TextView)findViewById(R.id.txt_name);
         txtName.setText(dialog.getUserName());
+        TextView txtClock = (TextView)findViewById(R.id.txt_clock);
+        insertCountDownClock(txtClock, adapter);
     }
 
     @Override
     public void onDialogNegativeClick(InputNameFragment dialog) {
         TextView txtName = (TextView)findViewById(R.id.txt_name);
         txtName.setText(dialog.getUserName());
-
+        TextView txtClock = (TextView)findViewById(R.id.txt_clock);
+        insertCountDownClock(txtClock, adapter);
     }
 }
