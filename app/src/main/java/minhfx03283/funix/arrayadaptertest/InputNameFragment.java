@@ -13,10 +13,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class InputNameFragment extends DialogFragment {
     // Use this instance of the interface to deliver action events
     NoticeDialogListener listener;
     private String userName;
+
+    private static final String JSON_USERNAME = "f";
+
+    public InputNameFragment(JSONObject jo) throws JSONException {
+        userName = jo.getString(JSON_USERNAME);
+    }
+
+    public JSONObject convertToJSON() throws JSONException{
+            JSONObject jo = new JSONObject();
+            jo.put(JSON_USERNAME, userName);
+            return jo;
+    }
 
     public InputNameFragment() {
     }

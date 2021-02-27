@@ -2,6 +2,7 @@ package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import minhfx03283.funix.arrayadaptertest.Quiz.JSONSerializer;
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType1;
@@ -26,6 +28,10 @@ import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
 public class MainActivity extends AppCompatActivity
         implements InputNameFragment.NoticeDialogListener {
 
+    private JSONSerializer mSerializer;
+    private InputNameFragment inputNameFragment = new InputNameFragment();
+    private String userName;
+
     QuizAdapter adapter = new QuizAdapter(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         List<Quiz> quizzes = addQuizzesInstance();
+
+
 
         RecyclerView rvQuiz = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -47,9 +55,32 @@ public class MainActivity extends AppCompatActivity
                 DividerItemDecoration.VERTICAL));
 
         // Prompt the name input dialog
-        InputNameFragment inputNameFragment = new InputNameFragment();
-        inputNameFragment.show(getSupportFragmentManager(), "inputName");
-        
+
+
+
+        mSerializer = new JSONSerializer("MyQuiz.json",
+                getApplicationContext());
+        try {
+            if (inputNameFragment.getUserName()!= null) {
+                inputNameFragment.show(getSupportFragmentManager(), "inputName");
+            }
+                inputNameFragment = mSerializer.load();
+        } catch (Exception e) {
+            inputNameFragment.show(getSupportFragmentManager(), "inputName");
+            Log.e("Error loading notes: ", "", e);
+        }
+
+    }
+    public void saveQuiz(){
+        try{
+            mSerializer.save(inputNameFragment);
+        }catch(Exception e){
+            Log.e("Error Saving Notes","", e);
+        } }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        saveQuiz();
 
     }
 
@@ -200,6 +231,7 @@ public class MainActivity extends AppCompatActivity
     public void onDialogPositiveClick(InputNameFragment dialog) {
         TextView txtName = (TextView)findViewById(R.id.txt_name);
         txtName.setText(dialog.getUserName());
+        userName = dialog.getUserName();
         TextView txtClock = (TextView)findViewById(R.id.txt_clock);
         insertCountDownClock(txtClock, adapter);
     }
@@ -208,6 +240,7 @@ public class MainActivity extends AppCompatActivity
     public void onDialogNegativeClick(InputNameFragment dialog) {
         TextView txtName = (TextView)findViewById(R.id.txt_name);
         txtName.setText(dialog.getUserName());
+        userName = dialog.getUserName();
         TextView txtClock = (TextView)findViewById(R.id.txt_clock);
         insertCountDownClock(txtClock, adapter);
     }
