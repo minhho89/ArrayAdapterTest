@@ -2,6 +2,7 @@ package minhfx03283.funix.arrayadaptertest;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,13 +19,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import minhfx03283.funix.arrayadaptertest.Quiz.JSONSerializer;
 import minhfx03283.funix.arrayadaptertest.Quiz.Quiz;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType0;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType1;
 import minhfx03283.funix.arrayadaptertest.Quiz.QuizType2;
+import minhfx03283.funix.arrayadaptertest.Quiz.UserAnswer;
 
 public class MainActivity extends AppCompatActivity
         implements InputNameFragment.NoticeDialogListener {
+
+    private JSONSerializer mSerializer;
+    private List<UserAnswer> userAnswers;
 
     QuizAdapter adapter = new QuizAdapter(this);
     @Override
@@ -35,6 +41,15 @@ public class MainActivity extends AppCompatActivity
         List<Quiz> quizzes = addQuizzesInstance();
 
         RecyclerView rvQuiz = (RecyclerView) findViewById(R.id.recyclerView);
+
+        mSerializer = new JSONSerializer("MyQuiz.json",
+                getApplicationContext());
+        try {
+            userAnswers = mSerializer.load();
+        } catch (Exception e) {
+            userAnswers = new ArrayList<UserAnswer>();
+            Log.e("Error loading notes: ", "", e);
+        }
 
         addQuizzesInstance();
         QuizAdapter adapter = new QuizAdapter(this, quizzes);
@@ -68,6 +83,12 @@ public class MainActivity extends AppCompatActivity
             }
         };
         COUNTDOWN_TIMER.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveQuizzes();
     }
 
     private List<Quiz> addQuizzesInstance() {
@@ -211,4 +232,14 @@ public class MainActivity extends AppCompatActivity
         TextView txtClock = (TextView)findViewById(R.id.txt_clock);
         insertCountDownClock(txtClock, adapter);
     }
+
+    public void saveQuizzes(){
+        try{
+            mSerializer.save(userAnswers);
+        }catch(Exception e){
+            Log.e("Error Saving Notes","", e);
+        }
+    }
+
+
 }
