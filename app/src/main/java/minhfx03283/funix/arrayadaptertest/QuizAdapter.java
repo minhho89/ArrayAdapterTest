@@ -42,7 +42,10 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     HashMap<Long, UserAnswer> userAnswerHashMap = new HashMap<>();
     HashMap<Long, String> radioButtonSelectedHashMap = new HashMap<>();
 
+
     public long final_result;
+
+
 
 
     // Constructor
@@ -50,6 +53,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         this.context = context;
         this.quizzes = quizzes;
     }
+
 
     public QuizAdapter(Context context) {
         this.context = context;
@@ -70,6 +74,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     public void setUserAnswerHashMap(HashMap<Long, UserAnswer> userAnswerHashMap) {
         this.userAnswerHashMap = userAnswerHashMap;
     }
+
 
     @NonNull
     @Override
@@ -290,7 +295,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                             userAnswer.setQuiz(quiz);
                             if (quiz instanceof QuizType2) {
                                 userAnswerSet.add(((EditText) childView).getText().toString());
-                                quiz.setUserAnswer(userAnswerSet);
+
                             }
 
                             userAnswer.setResult(quiz.checkResult(userAnswerSet));
@@ -324,6 +329,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         return quizzes.size();
     }
 
+
     public void bringToast(long countCorrect) {
         String message = "";
         String compliment = "";
@@ -354,6 +360,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         }
         return count;
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout linearLayout;
